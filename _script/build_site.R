@@ -10,9 +10,14 @@ if (length(args) > 0) {
 	}
 }
 
+if (tolower(Sys.info()["sysname"])=="windows"){
+	sysfun <- shell
+} else {
+	sysfun <- system		  
+}
 
 if (!dopdf) {
-	shell("make html")
+	sysfun("make html")
 
 	fff <- list.files("build/html", patt='\\.html$', recursive=TRUE, full=TRUE)
 	for (f in fff) {
@@ -68,32 +73,10 @@ if (!dopdf) {
 
 
 } else { #if (dopdf) {
-	print("dopdf")
-
-	if (tolower(Sys.info()["sysname"])=="windows"){
-		sysfun <- shell
-	} else {
-		sysfun <- system		  
-	}
-
-	sites <- list.files("source", full=TRUE)
-	sites <- sites[!grepl("\\_", sites)]
-	sites <- sites[!grepl("\\.", sites)]
-	wd <- getwd()
-	for (site in sites) {
-		setwd(wd)
-		cat("\n\n===================================\n")
-		cat(site)
-		cat("\n-----------------------------------\n")
-		setwd(site)
-		x <- sysfun("make latexpdf", intern = TRUE)
-		cat("\n\n-----------------------------------	\n")
-	}
-	setwd(wd)
-	#shell("make latexpdf")
+	print("make pdf")
+	x <- sysfun("make latexpdf", intern = TRUE)
 	cat("copying pdfs\n\n")
 	f <- list.files("source", patt='.pdf$', recursive=TRUE, full=TRUE)
-	if(length(f) < 6) {warning("pdf files missing")}
 	g <- gsub("/_build/latex", "", f)
 	g <- gsub("source/", "", g)
 	h <- file.path("build/html", g)

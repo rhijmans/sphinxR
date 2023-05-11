@@ -202,8 +202,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'Rintro.tex', u'Introduction to R',
-   u'Robert J. Hijmans', 'howto'),
+  (master_doc, 'course.tex', u'Introduction to Science',
+   u'Author B. Creative', 'howto'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
